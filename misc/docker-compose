@@ -51,6 +51,7 @@ if [ "$1" == "clean" ]; then
    exit
 fi
 
+# move the -d at the end for logs
 find_in_array $ARGUMENTS "-d"
 ret=$?
 if [ "$ret" -ne "255" ]; then
@@ -65,5 +66,25 @@ else
       ARGUMENTS="${@:1:1} -d ${@:2}"
    fi
 fi
-/usr/local/bin/docker-compose $ARGUMENTS
+
+# move the -f at the end for logs
+find_in_array $ARGUMENTS "-f"
+ret=$?
+if [ "$ret" -ne "255" ]; then
+   # if -f added at the end move it back 
+   if [ "$ret" -ne "2" ]; then
+      ret=$(remote_from_array $ARGUMENTS "-f")
+      ret_array=($ret)
+      ARGUMENTS="${@:1:1} -f ${ret_array[@]:1}"
+   fi
+else
+   if [ "$1" == "logs" ]; then
+      ARGUMENTS="${@:1:1} -f ${@:2}"
+   fi
+fi
+
+env /usr/local/bin/docker-compose $ARGUMENTS
+if [ "$1" == "up" ] && [ "$2" == "" ]; then
+  /usr/local/bin/docker-compose stop clamav
+fi
 popd
