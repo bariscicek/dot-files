@@ -1,14 +1,18 @@
 " close nerdtree if file is closed
-let NERDTreeMapOpenInTab='<ENTER>'
+" let NERDTreeMapOpenInTab='<ENTER>'
+let NERDTreeChristmasTree = 1
+let NERDTreeMapActivateNode='<CR>'
 let NERDTreeQuitOnOpen=1
 let g:ycm_python_binary_path = 'python'
-let g:ycm_server_python_interpreter = '/usr/bin/python'
+let g:ycm_server_python_interpreter = '/usr/bin/python3'
+let g:ycm_autoclose_preview_window_after_completion = 1
+
 fun! ToggleCC()
   if &cc == ''
     set cc=100,120
   else
     set cc=
-  endif
+    endif
 endfun
 
 nnoremap <F2> :call ToggleCC()<CR>
@@ -16,10 +20,12 @@ nmap <F8> :TagbarToggle<CR>
 
 set backupcopy=yes
 set nowritebackup
-nnoremap <leader>yt :YcmCompleter GetType<CR>
+nnoremap <leader>yy :YcmCompleter GetType<CR>
 nnoremap <leader>y; :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>yr :YcmCompleter RestartServer<CR>
 nnoremap <leader>yd :YcmCompleter GetDoc<CR>
+nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
+nnoremap <leader>yf :YcmCompleter FixIt<CR>
+nnoremap <leader>yo :YcmCompleter OrganizeImports<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
@@ -162,3 +168,10 @@ let g:ale_typescript_tsserver_use_global = 1
 autocmd FileChangedRO * echohl WarningMsg | echo "File changed RO." | echohl None
 autocmd FileChangedShell * echohl WarningMsg | echo "File changed shell." | echohl None 
 set nofoldenable    " disable folding
+set clipboard^=unnamed
+vmap <leader>y "+y
+vmap <leader>d "+d
+nmap <leader>p "+p
+nmap <leader>P "+P
+vmap <leader>p "+p
+vmap <leader>P "+P
