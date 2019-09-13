@@ -1,0 +1,40 @@
+#!/bin/sh
+
+PARSER_OPTIONS=ecmaVersion:2017
+ENV_OPTIONS=es6:true
+PATTERN=*.js
+
+scripts=(lint build)
+dirs=("" ./ ./src ./lib)
+
+{
+
+  PASSED=false
+
+  for script in "${scripts[@]}"; do
+    SCRIPT_EXIST=`npm run | grep -q $script`
+
+    if [ "$SCRIPT_EXIST" != "" ]; then
+      npm run $script
+      if [ "$?" != "0" ]; then
+	PASSED=true
+      fi
+    else
+      PASSED=false
+    fi
+  done
+
+  $PASSED
+
+} || {
+	standard
+# if [ -f ".eslintrc" ]; then
+#   eslint */**/*.js
+# else
+#   for dir in "${dirs[@]}"; do
+#     if [ -d "$dir" ]; then
+#eslint --no-eslintrc --env $ENV_OPTIONS --parser-options $PARSER_OPTIONS $dir/$PATTERN --quiet
+#     fi
+#   done
+# fi
+}

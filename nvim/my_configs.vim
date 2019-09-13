@@ -6,6 +6,7 @@ let NERDTreeQuitOnOpen=1
 let g:ycm_python_binary_path = 'python'
 let g:ycm_server_python_interpreter = '/usr/bin/python3'
 let g:ycm_autoclose_preview_window_after_completion = 1
+let t:miniBufExplSortBy = 'number'
 
 fun! ToggleCC()
   if &cc == ''
@@ -120,11 +121,11 @@ endfunction
 
 nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
 nmap <silent> <leader>e :call ToggleList("Quickfix List", 'c')<CR>
-"""""""
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<c-t>'],
-    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-    \ }
+""""""" Ctrlp prompt open new tab on enter
+"let g:ctrlp_prompt_mappings = {
+    "\ 'AcceptSelection("e")': ['<c-t>'],
+    "\ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+    "\ }
 
 " search and replace of the virtual selection
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
@@ -142,13 +143,6 @@ autocmd BufWritePre *.[jt]s :%s/\s\+$//e
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-"Open new window instead of using current buffer on enter
-call NERDTreeAddKeyMap({
-  \ 'key': '<CR>',
-  \ 'scope': "Node",
-  \ 'callback': 'OpenInNewTab',
-  \ 'quickhelpText': 'open node' })
-
 
 " FUNCTION: s:openInNewTab(target) {{{1
 function! OpenInNewTab(node)
@@ -175,3 +169,16 @@ nmap <leader>p "+p
 nmap <leader>P "+P
 vmap <leader>p "+p
 vmap <leader>P "+P
+
+" Open todo file
+map <leader>q :e ~/.todo<CR>
+
+" Ack/grep on in git's root
+function! Find_git_root()
+  system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+
+command! -nargs=1 Ag execute "Ack! <args> " . Find_git_root()
+
+" First find the word on cursor
+map * *N
