@@ -182,3 +182,11 @@ command! -nargs=1 Ag execute "Ack! <args> " . Find_git_root()
 
 " First find the word on cursor
 map * *N
+
+" assign Ngb to jump to buffer
+let c = 1
+while c <= 99
+  execute "nnoremap " . c . "gb :" . c . "b\<CR>"
+  execute "nnoremap " . c . "bd :" . c . "bd\<CR>"
+  let c += 1
+endwhile
