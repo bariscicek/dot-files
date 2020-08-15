@@ -4,9 +4,9 @@ let NERDTreeChristmasTree = 1
 let NERDTreeMapActivateNode='<CR>'
 let NERDTreeQuitOnOpen=1
 let g:ycm_python_binary_path = 'python'
-let g:ycm_server_python_interpreter = '/usr/bin/python3'
+let g:ycm_server_python_interpreter = '/usr/bin/python2.7'
 let g:ycm_autoclose_preview_window_after_completion = 1
-let t:miniBufExplSortBy = 'number'
+let t:miniBufExplSortBy = 'name'
 
 fun! ToggleCC()
   if &cc == ''

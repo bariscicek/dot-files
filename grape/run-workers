@@ -1,0 +1,49 @@
+#!/bin/sh
+
+if [ "$PORT" ]; then
+    _PORT=$PORT
+else
+    _PORT=8721
+fi
+
+if [ "$COMMAND" ]; then
+    _COMMAND=$COMMAND
+else
+    _COMMAND=`which node`
+fi
+
+reverse() {
+    # first argument is the array to reverse
+    # second is the output array
+    declare -n arr="$1" rev="$2"
+    for i in "${arr[@]}"
+    do
+        rev=("$i" "${rev[@]}")
+    done
+}
+join_by() {
+    local IFS="$1";
+    shift;
+    echo "$*";
+}
+
+kill-grapes
+run-grapes
+
+echo "running workers with $_COMMAND on port $_PORT"
+
+apifilename=$(basename -- "$(ls workers/*api*js)");
+apifilename=${apifilename%.*};
+IFS='.'
+read -a starr <<< "$apifilename"
+reverse starr WTYPE_ARR_API
+WTYPE_API=`join_by - "${WTYPE_ARR_API[@]}"`
+tmux split-window "$_COMMAND worker.js --env=development --wtype=$WTYPE_API --apiPort=$_PORT $*"
+
+filename=$(basename -- "$(ls workers/*proc*js)");
+filename=${filename%.*};
+IFS='.'
+read -a starr <<< "$filename"
+reverse starr WTYPE_ARR
+WTYPE=`join_by - "${WTYPE_ARR[@]}"`
+tmux split-window "$_COMMAND worker.js --env=development --wtype=$WTYPE $*"
