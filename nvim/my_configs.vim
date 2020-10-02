@@ -7,7 +7,7 @@ let g:ycm_python_binary_path = 'python'
 let g:ycm_server_python_interpreter = '/usr/bin/python2.7'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let t:miniBufExplSortBy = 'name'
-
+let g:airline#extensions#tabline#enabled = 1
 fun! ToggleCC()
   if &cc == ''
     set cc=100,120
