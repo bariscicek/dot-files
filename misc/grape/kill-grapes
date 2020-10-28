@@ -1,0 +1,7 @@
+#!/bin/bash
+
+PS_OUT=`ps x | grep grape | grep node | awk '{ print $1 }'`
+
+if [ "$PS_OUT" != "" ]; then
+    kill -9 $PS_OUT
+fi
