@@ -27,7 +27,7 @@ copy_myconfig() {
 copy_initvm() {
     echo "Copying init.vim"
     mkdir -p ~/.config/nvim/
-    cp ./init.vim ~/.config/hvim/init.vim
+    cp ./init.vim ~/.config/nvim/init.vim
 }
 
 
