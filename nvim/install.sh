@@ -24,7 +24,14 @@ copy_myconfig() {
     cp ./my_configs.vim $VIM_RUNTIME/my_configs.vim
 }
 
+copy_initvm() {
+    echo "Copying init.vim"
+    mkdir -p ~/.config/nvim/
+    cp ./init.vim ~/.config/hvim/init.vim
+}
+
 
 install_vimawesome
 install_myplugins
 copy_myconfig
+copy_initvm
