@@ -3,11 +3,12 @@
 let NERDTreeChristmasTree = 1
 let NERDTreeMapActivateNode='<CR>'
 let NERDTreeQuitOnOpen=1
+let g:powerline_loaded = 1
 let g:ycm_python_binary_path = 'python'
-let g:ycm_server_python_interpreter = '/usr/bin/python3'
+let g:ycm_server_python_interpreter = '/usr/bin/python'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let t:miniBufExplSortBy = 'name'
-let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 0
 let g:miniBufExplDebugMode = 1
 let g:snipMate = { 'snippet_version' : 1 }
 
@@ -22,6 +23,7 @@ endfun
 nnoremap <F2> :call ToggleCC()<CR>
 nmap <F8> :TagbarToggle<CR>
 
+set showtabline=0
 set backupcopy=yes
 set nowritebackup
 nnoremap <leader>yy :YcmCompleter GetType<CR>
@@ -193,3 +195,18 @@ while c <= 99
   execute "nnoremap " . c . "bd :" . c . "bd\<CR>"
   let c += 1
 endwhile
+" easy console.log
+" Console log from insert mode; Puts focus inside parentheses
+imap cll console.log()<Esc>==F(a
+" Console log from visual mode on next line, puts visual selection inside parentheses
+vmap cll yocll<Esc>p
+" Console log from normal mode, inserted on next line with word your on inside parentheses
+nmap cll yiwocll<Esc>p<Esc>
+" indent vblock with tab
+vmap <Tab> >gv
+vmap <S-Tab> <gv
+
+nmap <c-w> :bufdo bd!<CR>
+
+noremap <Leader>q q
+noremap q <Nop>
